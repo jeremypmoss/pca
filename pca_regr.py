@@ -17,7 +17,7 @@ Steps:
    box plots, histograms, and density plots.
 
 3. Data Preprocessing:
-   - Standardizes datasets and target variables using RobustScaler.
+   - Standardizes datasets and target variables using RobustScaler or StandardScaler.
    - Checks for multicollinearity among features and drops highly correlated ones.
 
 4. Feature Selection with PCA:
@@ -91,6 +91,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 apply_neural_network = True
 check_colinearity = True
 handle_outliers = False
+
+results_df = pd.DataFrame([]) # to store the prediction results and their differences from z_spec
+results_df['z_spec'] = y_test
 
 #%% Looking specifically at turnover flag
 # Splitting the data based on TO_flag
@@ -269,8 +272,7 @@ plt.show()
 
 
 #%% Visualize the predicted vs. actual redshift
-results_df = pd.DataFrame([]) # to store the prediction results and their differences from z_spec
-results_df['z_spec'] = y_test
+
 results_df[f'z_phot_{regr_name}'] = pred
 results_df[f'delta_z_{regr_name}'] = results_df['z_spec'] - results_df[f'z_phot_{regr_name}']
 
@@ -325,7 +327,7 @@ if apply_neural_network:
     y_test = np.array(y_test)
     results_df['z_phot_NN'] = y_pred
 
-    results_df['delta_z'] = results_df['z_spec'] - results_df['z_phot_NN']
+    results_df['delta_z_NN'] = results_df['z_spec'] - results_df['z_phot_NN']
 #%% Visualize the predicted vs. spectroscopic redshift
     fig, ax = plt.subplots(nrows=1, ncols=2)
     fig.tight_layout()
