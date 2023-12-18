@@ -1,3 +1,43 @@
+"""
+Author: Jim Moss
+18/12/2023
+
+This script conducts various data preprocessing steps, exploratory data analysis (EDA),
+feature selection using PCA, regression modeling, and neural network application for a given dataset
+related to quasar astronomy.
+
+Steps:
+1. Data Loading:
+   - Utilizes a DataLoader class to load a specific dataset.
+   - Splits the loaded data into training and testing sets.
+
+2. Exploratory Data Analysis (EDA):
+   - Investigates the 'TO_flag' feature if available in the dataset.
+   - Computes summary statistics, performs statistical tests, and visualizes distributions using
+   box plots, histograms, and density plots.
+
+3. Data Preprocessing:
+   - Standardizes datasets and target variables using RobustScaler.
+   - Checks for multicollinearity among features and drops highly correlated ones.
+
+4. Feature Selection with PCA:
+   - Utilizes PCA (Principal Component Analysis) for dimensionality reduction.
+   - Conducts a grid search to determine the optimal number of principal components.
+   - Compares regression models using cross-validation.
+
+5. Model Evaluation and Visualization:
+   - Evaluates the regression models' performance using RMSE (Root Mean Squared Error).
+   - Generates permutation importance plots for feature analysis.
+   - Compares predicted and actual redshift values using visualizations.
+
+6. Neural Network Application:
+   - Constructs and trains a neural network model on standardized PCA-transformed data.
+   - Generates predictions using the neural network and assesses its performance.
+
+Note: The script assumes specific modules ('DataLoader', 'quasar_functions') and data structure
+availability for its functionality.
+"""
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -229,7 +269,7 @@ plt.show()
 
 
 #%% Visualize the predicted vs. actual redshift
-results_df = pd.DataFrame([])
+results_df = pd.DataFrame([]) # to store the prediction results and their differences from z_spec
 results_df['z_spec'] = y_test
 results_df[f'z_phot_{regr_name}'] = pred
 results_df[f'delta_z_{regr_name}'] = results_df['z_spec'] - results_df[f'z_phot_{regr_name}']
